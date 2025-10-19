@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Juego Love2D</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .game-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #game {
+            margin: 0 auto;
+        }
+
+        canvas {
+            border: 3px solid #3498db;
+            border-radius: 10px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+
+        .loading {
+            font-size: 1.2rem;
+            margin: 20px 0;
+            color: #3498db;
+        }
+
+        .controls {
+            margin: 15px 0;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .back-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: white;
+            text-decoration: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .back-button:hover {
+            background: linear-gradient(45deg, #ff5252, #ff6b6b);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .game-container {
+                padding: 15px;
+            }
+            
+            canvas {
+                max-width: 100%;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎮 Mi Juego Love2D</h1>
+        <p>Disfruta de este juego creado con Love2D</p>
+    </div>
+
+    <div class="game-container">
+        <div class="loading" id="loading">🔄 Cargando juego...</div>
+        <div class="controls">
+            <button class="control-btn" onclick="toggleFullscreen()">📺 Pantalla Completa</button>
+            <button class="control-btn" onclick="restartGame()">🔄 Reiniciar</button>
+        </div>
+        <div id="game"></div>
+    </div>
+
+    <a href="../../index.html" class="back-button">← Volver al Inicio</a>
+
+    <!-- Archivos de Love.js -->
+    <script src="love.js"></script>
+    <script src="game.js"></script>
+    
+    <script>
+        // Configuración del juego Love2D
+        love.config = {
+            files: ['game.data'],          // Archivo con tu juego
+            title: 'Mi Juego Love2D',      // Título de la ventana
+            width: 800,                    // Ancho del juego
+            height: 600,                   // Alto del juego
+            pixelart: false,               // true si es pixel art
+            fullscreen: false              // Pantalla completa inicial
+        };
+
+        // Ocultar mensaje de carga cuando el juego esté listo
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                const loading = document.getElementById('loading');
+                if (loading) {
+                    loading.style.display = 'none';
+                }
+            }, 2000);
+        });
+
+        // Funciones de control
+        function toggleFullscreen() {
+            const canvas = document.querySelector('canvas');
+            if (!document.fullscreenElement) {
+                canvas.requestFullscreen().catch(err => {
+                    console.log('Error al activar pantalla completa:', err);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        function restartGame() {
+            // Recargar la página para reiniciar el juego
+            location.reload();
+        }
+
+        // Manejar errores
+        window.addEventListener('error', function(e) {
+            console.error('Error en el juego:', e.error);
+            const loading = document.getElementById('loading');
+            if (loading) {
+                loading.innerHTML = '❌ Error al cargar el juego. Verifica la consola.';
+                loading.style.color = '#ff6b6b';
+            }
+        });
+    </script>
+</body>
+</html>
