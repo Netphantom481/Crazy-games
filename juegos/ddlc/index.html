@@ -3,192 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DDLC</title>
+    <title>DDLC - DEBUG</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #1a1a2e;
             color: white;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            font-family: Arial, sans-serif;
             padding: 20px;
+            margin: 0;
         }
-
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-
-        .game-container {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 15px;
-            padding: 20px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        #game {
+        .debug-container {
+            max-width: 800px;
             margin: 0 auto;
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #ff6b6b;
         }
-
+        .status {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .loading { background: #3498db; }
+        .success { background: #27ae60; }
+        .error { background: #e74c3c; }
+        .file-check { 
+            background: #2c3e50; 
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+        .game-area {
+            margin: 20px 0;
+            text-align: center;
+        }
         canvas {
             border: 3px solid #3498db;
-            border-radius: 10px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-        }
-
-        .loading {
-            font-size: 1.2rem;
-            margin: 20px 0;
-            color: #3498db;
-        }
-
-        .controls {
-            margin: 15px 0;
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .control-btn {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .control-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .back-button {
-            display: inline-block;
-            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
-            color: white;
-            text-decoration: none;
-            padding: 12px 30px;
-            border-radius: 25px;
-            font-weight: bold;
-            margin-top: 20px;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-        }
-
-        .back-button:hover {
-            background: linear-gradient(45deg, #ff5252, #ff6b6b);
-            transform: translateY(-2px);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2rem;
-            }
-            
-            .game-container {
-                padding: 15px;
-            }
-            
-            canvas {
-                max-width: 100%;
-                height: auto;
-            }
+            background: black;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>🎮 DDLC</h1>
-        <p>Disfruta de este juego creado con Love2D</p>
-    </div>
-
-    <div class="game-container">
-        <div class="loading" id="loading">🔄 Cargando juego...</div>
-        <div class="controls">
-            <button class="control-btn" onclick="toggleFullscreen()">📺 Pantalla Completa</button>
-            <button class="control-btn" onclick="restartGame()">🔄 Reiniciar</button>
+    <div class="debug-container">
+        <h1>🐛 DEBUG - DDLC</h1>
+        
+        <div id="status" class="status loading">🔄 Verificando archivos...</div>
+        
+        <div id="file-checks">
+            <h3>Archivos necesarios:</h3>
+            <!-- Los archivos aparecerán aquí -->
         </div>
-        <div id="game"></div>
-    </div>
 
-    <a href="../../index.html" class="back-button">← Volver al Inicio</a>
+        <div class="game-area">
+            <h3>Área del juego:</h3>
+            <div id="game"></div>
+        </div>
+
+        <a href="../../index.html" style="color: #3498db;">← Volver al inicio</a>
+    </div>
 
     <!-- Archivos de Love.js -->
     <script src="love.js"></script>
     <script src="game.js"></script>
     
     <script>
-        // Configuración del juego Love2D
-        love.config = {
-            files: ['game.data'],          // Archivo con tu juego
-            title: 'Doki Doki Literature Club',      // Título de la ventana
-            width: 800,                    // Ancho del juego
-            height: 600,                   // Alto del juego
-            pixelart: false,               // true si es pixel art
-            fullscreen: false              // Pantalla completa inicial
-        };
+        // Función para verificar si un archivo existe
+        function checkFile(filename) {
+            return fetch(filename)
+                .then(response => {
+                    const exists = response.ok;
+                    const status = exists ? '✅' : '❌';
+                    const color = exists ? '#27ae60' : '#e74c3c';
+                    
+                    document.getElementById('file-checks').innerHTML += `
+                        <div class="file-check" style="border-left: 4px solid ${color}">
+                            ${status} ${filename} 
+                            ${exists ? `(${response.headers.get('content-length')} bytes)` : 'NO ENCONTRADO'}
+                        </div>
+                    `;
+                    
+                    return exists;
+                })
+                .catch(() => {
+                    document.getElementById('file-checks').innerHTML += `
+                        <div class="file-check" style="border-left: 4px solid #e74c3c">
+                            ❌ ${filename} - ERROR DE RED
+                        </div>
+                    `;
+                    return false;
+                });
+        }
 
-        // Ocultar mensaje de carga cuando el juego esté listo
-        window.addEventListener('load', function() {
-            setTimeout(() => {
-                const loading = document.getElementById('loading');
-                if (loading) {
-                    loading.style.display = 'none';
-                }
-            }, 2000);
+        // Verificar todos los archivos
+        Promise.all([
+            checkFile('love.js'),
+            checkFile('game.js'),
+            checkFile('game.data')
+        ]).then(results => {
+            const allOk = results.every(r => r);
+            const status = document.getElementById('status');
+            
+            if (allOk) {
+                status.className = 'status success';
+                status.innerHTML = '✅ Todos los archivos cargados - Iniciando juego...';
+                
+                // Iniciar el juego después de 1 segundo
+                setTimeout(initGame, 1000);
+            } else {
+                status.className = 'status error';
+                status.innerHTML = '❌ Faltan archivos - Revisa la lista arriba';
+            }
         });
 
-        // Funciones de control
-        function toggleFullscreen() {
-            const canvas = document.querySelector('canvas');
-            if (!document.fullscreenElement) {
-                canvas.requestFullscreen().catch(err => {
-                    console.log('Error al activar pantalla completa:', err);
-                });
-            } else {
-                document.exitFullscreen();
+        function initGame() {
+            try {
+                // Configuración de Love.js
+                love.config = {
+                    files: ['game.data'],
+                    title: 'DDLC - Fan Version',
+                    width: 800,
+                    height: 600,
+                    pixelart: false
+                };
+                
+                document.getElementById('status').innerHTML += '<br>🎮 Juego configurado - Debería cargarse...';
+            } catch (error) {
+                document.getElementById('status').innerHTML = `❌ Error: ${error.message}`;
+                console.error('Error inicializando el juego:', error);
             }
         }
 
-        function restartGame() {
-            // Recargar la página para reiniciar el juego
-            location.reload();
-        }
-
-        // Manejar errores
+        // Manejar errores globales
         window.addEventListener('error', function(e) {
-            console.error('Error en el juego:', e.error);
-            const loading = document.getElementById('loading');
-            if (loading) {
-                loading.innerHTML = '❌ Error al cargar el juego. Verifica la consola.';
-                loading.style.color = '#ff6b6b';
-            }
+            console.error('Error global:', e.error);
+            document.getElementById('status').innerHTML += `<br>❌ Error global: ${e.message}`;
         });
     </script>
 </body>
