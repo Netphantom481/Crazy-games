@@ -1,1 +1,1 @@
-# Craze-games
+# Crazy-games
