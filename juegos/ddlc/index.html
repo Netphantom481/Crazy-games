@@ -3,142 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DDLC - DEBUG</title>
+    <title>DDLC - Fan Version</title>
     <style>
-        body {
-            background: #1a1a2e;
-            color: white;
-            font-family: Arial, sans-serif;
-            padding: 20px;
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .debug-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: rgba(0,0,0,0.3);
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: white;
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             padding: 20px;
-            border-radius: 10px;
-            border: 2px solid #ff6b6b;
         }
-        .status {
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-        .loading { background: #3498db; }
-        .success { background: #27ae60; }
-        .error { background: #e74c3c; }
-        .file-check { 
-            background: #2c3e50; 
-            padding: 10px;
-            margin: 5px 0;
-            border-radius: 5px;
-        }
-        .game-area {
-            margin: 20px 0;
+
+        .header {
             text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
         }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #ff6b6b;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.8;
+        }
+
+        .game-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .loading {
+            font-size: 1.2rem;
+            color: #3498db;
+            margin: 20px 0;
+        }
+
+        .back-button {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        /* Estilo para el canvas del juego */
         canvas {
             border: 3px solid #3498db;
-            background: black;
+            border-radius: 10px;
         }
     </style>
 </head>
 <body>
-    <div class="debug-container">
-        <h1>🐛 DEBUG - DDLC</h1>
-        
-        <div id="status" class="status loading">🔄 Verificando archivos...</div>
-        
-        <div id="file-checks">
-            <h3>Archivos necesarios:</h3>
-            <!-- Los archivos aparecerán aquí -->
-        </div>
-
-        <div class="game-area">
-            <h3>Área del juego:</h3>
-            <div id="game"></div>
-        </div>
-
-        <a href="../../index.html" style="color: #3498db;">← Volver al inicio</a>
+    <div class="header">
+        <h1>📖 Doki Doki Literature Club</h1>
+        <p>Una experiencia visual única - Fan Version</p>
     </div>
 
-    <!-- Archivos de Love.js -->
-    <script src="love.js"></script>
-    <script src="game.js"></script>
-    
+    <div class="game-container">
+        <div class="loading" id="loading">🔄 Cargando DDLC...</div>
+        <!-- EL JUEGO APARECERÁ AQUÍ AUTOMÁTICAMENTE -->
+    </div>
+
+    <a href="../../index.html" class="back-button">← Volver al Inicio</a>
+
+    <!-- IMPORTANTE: Cambia "ddlc.love" por el nombre de tu archivo -->
+    <script src="player.js?g=ddlc.love"></script>
+
     <script>
-        // Función para verificar si un archivo existe
-        function checkFile(filename) {
-            return fetch(filename)
-                .then(response => {
-                    const exists = response.ok;
-                    const status = exists ? '✅' : '❌';
-                    const color = exists ? '#27ae60' : '#e74c3c';
-                    
-                    document.getElementById('file-checks').innerHTML += `
-                        <div class="file-check" style="border-left: 4px solid ${color}">
-                            ${status} ${filename} 
-                            ${exists ? `(${response.headers.get('content-length')} bytes)` : 'NO ENCONTRADO'}
-                        </div>
-                    `;
-                    
-                    return exists;
-                })
-                .catch(() => {
-                    document.getElementById('file-checks').innerHTML += `
-                        <div class="file-check" style="border-left: 4px solid #e74c3c">
-                            ❌ ${filename} - ERROR DE RED
-                        </div>
-                    `;
-                    return false;
-                });
-        }
-
-        // Verificar todos los archivos
-        Promise.all([
-            checkFile('love.js'),
-            checkFile('game.js'),
-            checkFile('game.data')
-        ]).then(results => {
-            const allOk = results.every(r => r);
-            const status = document.getElementById('status');
-            
-            if (allOk) {
-                status.className = 'status success';
-                status.innerHTML = '✅ Todos los archivos cargados - Iniciando juego...';
-                
-                // Iniciar el juego después de 1 segundo
-                setTimeout(initGame, 1000);
-            } else {
-                status.className = 'status error';
-                status.innerHTML = '❌ Faltan archivos - Revisa la lista arriba';
+        // Ocultar mensaje de carga después de 5 segundos
+        setTimeout(function() {
+            var loading = document.getElementById('loading');
+            if (loading) {
+                loading.style.display = 'none';
             }
-        });
+        }, 5000);
 
-        function initGame() {
-            try {
-                // Configuración de Love.js
-                love.config = {
-                    files: ['game.data'],
-                    title: 'DDLC - Fan Version',
-                    width: 800,
-                    height: 600,
-                    pixelart: false
-                };
-                
-                document.getElementById('status').innerHTML += '<br>🎮 Juego configurado - Debería cargarse...';
-            } catch (error) {
-                document.getElementById('status').innerHTML = `❌ Error: ${error.message}`;
-                console.error('Error inicializando el juego:', error);
-            }
-        }
-
-        // Manejar errores globales
+        // Mostrar errores si los hay
         window.addEventListener('error', function(e) {
-            console.error('Error global:', e.error);
-            document.getElementById('status').innerHTML += `<br>❌ Error global: ${e.message}`;
+            console.error('Error:', e);
+            document.getElementById('loading').innerHTML = 
+                '❌ Error: ' + e.message;
         });
     </script>
 </body>
