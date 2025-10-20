@@ -31,13 +31,14 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
         }
         
-        /* Hacer el iframe responsive - PARA JUEGOS NORMALES */
+        /* CONTENEDOR PARA JUEGOS RETRO (16:9) */
         .embed-container {
             position: relative;
             width: 100%;
-            max-width: 600px;
+            max-width: 800px;
             margin: 0 auto;
         }
         
@@ -45,26 +46,41 @@
             width: 100%;
             height: 450px;
             border-radius: 8px;
+            border: 2px solid #ddd;
         }
         
-        /* CONTENEDOR ESPECIAL PARA DDLC */
+        /* CONTENEDOR ESPECIAL PARA DDLC - PANTALLA COMPLETA */
         .embed-container-ddlc {
-    position: relative;
-    width: 100%;
-    padding-bottom: 56.25%; /* Ratio 16:9 */
-    height: 0;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.embed-container-ddlc iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 8px;
-}
+            position: relative;
+            width: 100%;
+            max-width: 960px;  /* Ancho estándar para DDLC */
+            margin: 0 auto;
+        }
+        
+        .embed-container-ddlc iframe {
+            width: 100%;
+            height: 600px;     /* Alto específico para DDLC */
+            border-radius: 8px;
+            border: 2px solid #ddd;
+        }
+        
+        /* BOTÓN DE PANTALLA COMPLETA */
+        .fullscreen-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        
+        .fullscreen-btn:hover {
+            background: #45a049;
+        }
+        
         /* Estilos específicos para DDLC */
         .ddlc-warning {
             background: #ffe6e6;
@@ -73,6 +89,38 @@
             margin: 10px 0;
             border-radius: 4px;
             font-size: 0.9em;
+            text-align: center;
+        }
+        
+        /* Modo pantalla completa */
+        .fullscreen-mode {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: black;
+            z-index: 9999;
+            display: none;
+        }
+        
+        .fullscreen-mode iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .close-fullscreen {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: red;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10000;
         }
     </style>
 </head>
@@ -84,17 +132,23 @@
         </div>
     </header>
 
-    <!-- Sección de juegos añadida -->
+    <!-- Modo pantalla completa (oculto inicialmente) -->
+    <div id="fullscreenDDLC" class="fullscreen-mode">
+        <button class="close-fullscreen" onclick="exitFullscreen()">✕</button>
+        <iframe id="fullscreenIframe" src="juegos/frontend/index.html" frameborder="0"></iframe>
+    </div>
+
+    <!-- Sección de juegos -->
     <main class="games-section">
-        <!-- DDLC con contenedor especial -->
+        <!-- DDLC con pantalla completa -->
         <div class="game-container">
             <h2 class="game-title">Doki Doki Literature Club</h2>
             <div class="ddlc-warning">
                 ⚠️ Advertencia: Este juego contiene temas sensibles y no es apto para niños o personas sensibles.
             </div>
             <div class="game-embed">
-                <div class="embed-container-ddlc">  <!-- Clase especial -->
-                    <iframe src="juegos/frontend/index.html" 
+                <div class="embed-container-ddlc">
+                    <iframe id="ddlcIframe" src="juegos/frontend/index.html" 
                             frameborder="no" 
                             allowfullscreen="true" 
                             webkitallowfullscreen="true" 
@@ -102,14 +156,17 @@
                             scrolling="no">
                     </iframe>
                 </div>
+                <button class="fullscreen-btn" onclick="openFullscreen('ddlcIframe')">
+                    🚀 Pantalla Completa
+                </button>
             </div>
         </div>
 
-        <!-- Los otros juegos mantienen el contenedor normal -->
+        <!-- Los otros juegos -->
         <div class="game-container">
             <h2 class="game-title">Sonic The Hedgehog</h2>
             <div class="game-embed">
-                <div class="embed-container">  <!-- Clase normal -->
+                <div class="embed-container">
                     <iframe src="https://www.retrogames.cc/embed/30899-sonic-the-hedgehog-usa-europe.html" 
                             frameborder="no" 
                             allowfullscreen="true" 
@@ -124,7 +181,7 @@
         <div class="game-container">
             <h2 class="game-title">Super Smash Bros</h2>
             <div class="game-embed">
-                <div class="embed-container">  <!-- Clase normal -->
+                <div class="embed-container">
                     <iframe src="https://www.retrogames.cc/embed/32117-super-smash-bros-usa.html" 
                             frameborder="no" 
                             allowfullscreen="true" 
@@ -139,7 +196,7 @@
         <div class="game-container">
             <h2 class="game-title">Pokemon Red</h2>
             <div class="game-embed">
-                <div class="embed-container">  <!-- Clase normal -->
+                <div class="embed-container">
                     <iframe src="https://www.retrogames.cc/embed/44577-pokemon-red-full-color-hack.html" 
                             frameborder="no" 
                             allowfullscreen="true" 
@@ -162,5 +219,51 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        // Función para pantalla completa
+        function openFullscreen(iframeId) {
+            const fullscreenDiv = document.getElementById('fullscreenDDLC');
+            const fullscreenIframe = document.getElementById('fullscreenIframe');
+            const originalIframe = document.getElementById(iframeId);
+            
+            // Copiar el src del iframe original
+            fullscreenIframe.src = originalIframe.src;
+            
+            // Mostrar pantalla completa
+            fullscreenDiv.style.display = 'block';
+            
+            // Intentar pantalla completa nativa del navegador
+            if (fullscreenDiv.requestFullscreen) {
+                fullscreenDiv.requestFullscreen();
+            } else if (fullscreenDiv.webkitRequestFullscreen) {
+                fullscreenDiv.webkitRequestFullscreen();
+            } else if (fullscreenDiv.msRequestFullscreen) {
+                fullscreenDiv.msRequestFullscreen();
+            }
+        }
+        
+        // Función para salir de pantalla completa
+        function exitFullscreen() {
+            const fullscreenDiv = document.getElementById('fullscreenDDLC');
+            fullscreenDiv.style.display = 'none';
+            
+            // Salir de pantalla completa nativa
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+            }
+        }
+        
+        // Salir con ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                exitFullscreen();
+            }
+        });
+    </script>
 </body>
 </html>
