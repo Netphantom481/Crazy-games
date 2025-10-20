@@ -6,7 +6,6 @@
     <title>Mi Página de Juegos</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* Estilos adicionales para la sección de juegos */
         .games-section {
             padding: 40px 20px;
             max-width: 1200px;
@@ -16,25 +15,62 @@
         .game-container {
             background: #f5f5f5;
             border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
+            padding: 30px;
+            margin: 25px 0;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
         }
         
         .game-title {
             color: #333;
-            margin-bottom: 15px;
-            font-size: 1.5em;
+            margin-bottom: 20px;
+            font-size: 1.8em;
         }
         
-        .game-embed {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
+        .ddlc-warning {
+            background: #ffe6e6;
+            border-left: 4px solid #ff4444;
+            padding: 12px 20px;
+            margin: 15px 0;
+            border-radius: 6px;
+            font-size: 0.95em;
+            text-align: center;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
-        /* CONTENEDOR PARA JUEGOS RETRO (16:9) */
+        .play-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 15px 0;
+            display: inline-block;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .play-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            color: white;
+            text-decoration: none;
+        }
+        
+        .game-description {
+            color: #666;
+            margin: 15px 0;
+            font-size: 1em;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Para los juegos retro embebidos */
         .embed-container {
             position: relative;
             width: 100%;
@@ -48,80 +84,6 @@
             border-radius: 8px;
             border: 2px solid #ddd;
         }
-        
-        /* CONTENEDOR ESPECIAL PARA DDLC - PANTALLA COMPLETA */
-        .embed-container-ddlc {
-            position: relative;
-            width: 100%;
-            max-width: 960px;  /* Ancho estándar para DDLC */
-            margin: 0 auto;
-        }
-        
-        .embed-container-ddlc iframe {
-            width: 100%;
-            height: 600px;     /* Alto específico para DDLC */
-            border-radius: 8px;
-            border: 2px solid #ddd;
-        }
-        
-        /* BOTÓN DE PANTALLA COMPLETA */
-        .fullscreen-btn {
-            background: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            margin-top: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background 0.3s;
-        }
-        
-        .fullscreen-btn:hover {
-            background: #45a049;
-        }
-        
-        /* Estilos específicos para DDLC */
-        .ddlc-warning {
-            background: #ffe6e6;
-            border-left: 4px solid #ff4444;
-            padding: 10px 15px;
-            margin: 10px 0;
-            border-radius: 4px;
-            font-size: 0.9em;
-            text-align: center;
-        }
-        
-        /* Modo pantalla completa */
-        .fullscreen-mode {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: black;
-            z-index: 9999;
-            display: none;
-        }
-        
-        .fullscreen-mode iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        
-        .close-fullscreen {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: red;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 10000;
-        }
     </style>
 </head>
 <body>
@@ -132,79 +94,56 @@
         </div>
     </header>
 
-    <!-- Modo pantalla completa (oculto inicialmente) -->
-    <div id="fullscreenDDLC" class="fullscreen-mode">
-        <button class="close-fullscreen" onclick="exitFullscreen()">✕</button>
-        <iframe id="fullscreenIframe" src="juegos/frontend/index.html" frameborder="0"></iframe>
-    </div>
-
-    <!-- Sección de juegos -->
     <main class="games-section">
-        <!-- DDLC con pantalla completa -->
+        <!-- DDLC - Enlace directo (RECOMENDADO para GitHub Pages) -->
         <div class="game-container">
             <h2 class="game-title">Doki Doki Literature Club</h2>
             <div class="ddlc-warning">
                 ⚠️ Advertencia: Este juego contiene temas sensibles y no es apto para niños o personas sensibles.
             </div>
-            <div class="game-embed">
-                <div class="embed-container-ddlc">
-                    <iframe id="ddlcIframe" src="juegos/frontend/index.html" 
-                            frameborder="no" 
-                            allowfullscreen="true" 
-                            webkitallowfullscreen="true" 
-                            mozallowfullscreen="true" 
-                            scrolling="no">
-                    </iframe>
-                </div>
-                <button class="fullscreen-btn" onclick="openFullscreen('ddlcIframe')">
-                    🚀 Pantalla Completa
-                </button>
-            </div>
+            
+            <p class="game-description">
+                Un juego de romance psicológico único que va más allá de lo que esperas. 
+                Experimenta una historia que te hará cuestionar todo.
+            </p>
+            
+            <a href="./ddlc/index.html" class="play-button">
+                🎮 Jugar Doki Doki Literature Club
+            </a>
+            
+            <p style="font-size: 0.9em; color: #888; margin-top: 10px;">
+                Se abrirá en la misma pestaña - Juego completo
+            </p>
         </div>
 
-        <!-- Los otros juegos -->
+        <!-- Juegos retro embebidos -->
         <div class="game-container">
             <h2 class="game-title">Sonic The Hedgehog</h2>
-            <div class="game-embed">
-                <div class="embed-container">
-                    <iframe src="https://www.retrogames.cc/embed/30899-sonic-the-hedgehog-usa-europe.html" 
-                            frameborder="no" 
-                            allowfullscreen="true" 
-                            webkitallowfullscreen="true" 
-                            mozallowfullscreen="true" 
-                            scrolling="no">
-                    </iframe>
-                </div>
+            <div class="embed-container">
+                <iframe src="https://www.retrogames.cc/embed/30899-sonic-the-hedgehog-usa-europe.html" 
+                        frameborder="no" 
+                        allowfullscreen>
+                </iframe>
             </div>
         </div>
         
         <div class="game-container">
             <h2 class="game-title">Super Smash Bros</h2>
-            <div class="game-embed">
-                <div class="embed-container">
-                    <iframe src="https://www.retrogames.cc/embed/32117-super-smash-bros-usa.html" 
-                            frameborder="no" 
-                            allowfullscreen="true" 
-                            webkitallowfullscreen="true" 
-                            mozallowfullscreen="true" 
-                            scrolling="no">
-                    </iframe>
-                </div>
+            <div class="embed-container">
+                <iframe src="https://www.retrogames.cc/embed/32117-super-smash-bros-usa.html" 
+                        frameborder="no" 
+                        allowfullscreen>
+                </iframe>
             </div>
         </div>
 
         <div class="game-container">
             <h2 class="game-title">Pokemon Red</h2>
-            <div class="game-embed">
-                <div class="embed-container">
-                    <iframe src="https://www.retrogames.cc/embed/44577-pokemon-red-full-color-hack.html" 
-                            frameborder="no" 
-                            allowfullscreen="true" 
-                            webkitallowfullscreen="true" 
-                            mozallowfullscreen="true" 
-                            scrolling="no">
-                    </iframe>
-                </div>
+            <div class="embed-container">
+                <iframe src="https://www.retrogames.cc/embed/44577-pokemon-red-full-color-hack.html" 
+                        frameborder="no" 
+                        allowfullscreen>
+                </iframe>
             </div>
         </div>
     </main>
@@ -219,51 +158,5 @@
             </div>
         </div>
     </footer>
-
-    <script>
-        // Función para pantalla completa
-        function openFullscreen(iframeId) {
-            const fullscreenDiv = document.getElementById('fullscreenDDLC');
-            const fullscreenIframe = document.getElementById('fullscreenIframe');
-            const originalIframe = document.getElementById(iframeId);
-            
-            // Copiar el src del iframe original
-            fullscreenIframe.src = originalIframe.src;
-            
-            // Mostrar pantalla completa
-            fullscreenDiv.style.display = 'block';
-            
-            // Intentar pantalla completa nativa del navegador
-            if (fullscreenDiv.requestFullscreen) {
-                fullscreenDiv.requestFullscreen();
-            } else if (fullscreenDiv.webkitRequestFullscreen) {
-                fullscreenDiv.webkitRequestFullscreen();
-            } else if (fullscreenDiv.msRequestFullscreen) {
-                fullscreenDiv.msRequestFullscreen();
-            }
-        }
-        
-        // Función para salir de pantalla completa
-        function exitFullscreen() {
-            const fullscreenDiv = document.getElementById('fullscreenDDLC');
-            fullscreenDiv.style.display = 'none';
-            
-            // Salir de pantalla completa nativa
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            } else if (document.webkitExitFullscreen) {
-                document.webkitExitFullscreen();
-            } else if (document.msExitFullscreen) {
-                document.msExitFullscreen();
-            }
-        }
-        
-        // Salir con ESC
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                exitFullscreen();
-            }
-        });
-    </script>
 </body>
 </html>
