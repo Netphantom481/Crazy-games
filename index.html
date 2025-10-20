@@ -46,6 +46,16 @@
             height: 450px;
             border-radius: 8px;
         }
+        
+        /* Estilos específicos para DDLC */
+        .ddlc-warning {
+            background: #ffe6e6;
+            border-left: 4px solid #ff4444;
+            padding: 10px 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
     </style>
 </head>
 <body>
@@ -58,6 +68,25 @@
 
     <!-- Sección de juegos añadida -->
     <main class="games-section">
+        <!-- DDLC añadido aquí -->
+        <div class="game-container">
+            <h2 class="game-title">Doki Doki Literature Club</h2>
+            <div class="ddlc-warning">
+                ⚠️ Advertencia: Este juego contiene temas sensibles y no es apto para niños o personas sensibles.
+            </div>
+            <div class="game-embed">
+                <div class="embed-container">
+                    <iframe src="juegos/frontend/index.html" 
+                            frameborder="no" 
+                            allowfullscreen="true" 
+                            webkitallowfullscreen="true" 
+                            mozallowfullscreen="true" 
+                            scrolling="no">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+
         <div class="game-container">
             <h2 class="game-title">Sonic The Hedgehog</h2>
             <div class="game-embed">
@@ -88,7 +117,7 @@
             </div>
         </div>
 
-<div class="game-container">
+        <div class="game-container">
             <h2 class="game-title">Pokemon Red</h2>
             <div class="game-embed">
                 <div class="embed-container">
@@ -102,18 +131,6 @@
                 </div>
             </div>
         </div>
-        
-        <!-- Puedes añadir más juegos aquí -->
-        <!--
-        <div class="game-container">
-            <h2 class="game-title">Otro Juego</h2>
-            <div class="game-embed">
-                <div class="embed-container">
-                    <iframe src="..." ...></iframe>
-                </div>
-            </div>
-        </div>
-        -->
     </main>
 
     <footer>
