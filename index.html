@@ -49,18 +49,22 @@
         
         /* CONTENEDOR ESPECIAL PARA DDLC */
         .embed-container-ddlc {
-            position: relative;
-            width: 100%;
-            max-width: 800px;  /* Más ancho */
-            margin: 0 auto;
-        }
-        
-        .embed-container-ddlc iframe {
-            width: 100%;
-            height: 600px;     /* Más alto */
-            border-radius: 8px;
-        }
-        
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* Ratio 16:9 */
+    height: 0;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.embed-container-ddlc iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+}
         /* Estilos específicos para DDLC */
         .ddlc-warning {
             background: #ffe6e6;
