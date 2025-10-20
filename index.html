@@ -33,7 +33,7 @@
             align-items: center;
         }
         
-        /* Hacer el iframe responsive */
+        /* Hacer el iframe responsive - PARA JUEGOS NORMALES */
         .embed-container {
             position: relative;
             width: 100%;
@@ -44,6 +44,20 @@
         .embed-container iframe {
             width: 100%;
             height: 450px;
+            border-radius: 8px;
+        }
+        
+        /* CONTENEDOR ESPECIAL PARA DDLC */
+        .embed-container-ddlc {
+            position: relative;
+            width: 100%;
+            max-width: 800px;  /* Más ancho */
+            margin: 0 auto;
+        }
+        
+        .embed-container-ddlc iframe {
+            width: 100%;
+            height: 600px;     /* Más alto */
             border-radius: 8px;
         }
         
@@ -68,14 +82,14 @@
 
     <!-- Sección de juegos añadida -->
     <main class="games-section">
-        <!-- DDLC añadido aquí -->
+        <!-- DDLC con contenedor especial -->
         <div class="game-container">
             <h2 class="game-title">Doki Doki Literature Club</h2>
             <div class="ddlc-warning">
                 ⚠️ Advertencia: Este juego contiene temas sensibles y no es apto para niños o personas sensibles.
             </div>
             <div class="game-embed">
-                <div class="embed-container">
+                <div class="embed-container-ddlc">  <!-- Clase especial -->
                     <iframe src="juegos/frontend/index.html" 
                             frameborder="no" 
                             allowfullscreen="true" 
@@ -87,10 +101,11 @@
             </div>
         </div>
 
+        <!-- Los otros juegos mantienen el contenedor normal -->
         <div class="game-container">
             <h2 class="game-title">Sonic The Hedgehog</h2>
             <div class="game-embed">
-                <div class="embed-container">
+                <div class="embed-container">  <!-- Clase normal -->
                     <iframe src="https://www.retrogames.cc/embed/30899-sonic-the-hedgehog-usa-europe.html" 
                             frameborder="no" 
                             allowfullscreen="true" 
@@ -105,7 +120,7 @@
         <div class="game-container">
             <h2 class="game-title">Super Smash Bros</h2>
             <div class="game-embed">
-                <div class="embed-container">
+                <div class="embed-container">  <!-- Clase normal -->
                     <iframe src="https://www.retrogames.cc/embed/32117-super-smash-bros-usa.html" 
                             frameborder="no" 
                             allowfullscreen="true" 
@@ -120,7 +135,7 @@
         <div class="game-container">
             <h2 class="game-title">Pokemon Red</h2>
             <div class="game-embed">
-                <div class="embed-container">
+                <div class="embed-container">  <!-- Clase normal -->
                     <iframe src="https://www.retrogames.cc/embed/44577-pokemon-red-full-color-hack.html" 
                             frameborder="no" 
                             allowfullscreen="true" 
