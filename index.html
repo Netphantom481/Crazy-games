@@ -5,6 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Página de Juegos</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Estilos adicionales para la sección de juegos */
+        .games-section {
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .game-container {
+            background: #f5f5f5;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .game-title {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        
+        .game-embed {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* Hacer el iframe responsive */
+        .embed-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .embed-container iframe {
+            width: 100%;
+            height: 450px;
+            border-radius: 8px;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -14,30 +56,41 @@
         </div>
     </header>
 
-    <main>
-        <section class="games-grid">
-            <div class="game-card">
-                <div class="game-icon">📖</div>
-                <h3>Doki Doki Literature Club</h3>
-                <p>Una experiencia visual única - Fan Version</p>
-                <div class="game-features">
-                    <span class="feature-tag">Novela Visual</span>
-                    <span class="feature-tag">Psicológico</span>
-                    <span class="feature-tag">Love2D</span>
+    <!-- Sección de juegos añadida -->
+    <main class="games-section">
+        <div class="game-container">
+            <h2 class="game-title">Sonic The Hedgehog</h2>
+            <div class="game-embed">
+                <div class="embed-container">
+                    <iframe src="https://www.retrogames.cc/embed/30899-sonic-the-hedgehog-usa-europe.html" 
+                            frameborder="no" 
+                            allowfullscreen="true" 
+                            webkitallowfullscreen="true" 
+                            mozallowfullscreen="true" 
+                            scrolling="no">
+                    </iframe>
                 </div>
-                <a href="juegos/ddlc/index.html" class="play-button">
-                    <span class="button-text">Jugar Ahora</span>
-                    <span class="button-arrow">→</span>
-                </a>
             </div>
-        </section>
+        </div>
+        
+        <!-- Puedes añadir más juegos aquí -->
+        <!--
+        <div class="game-container">
+            <h2 class="game-title">Otro Juego</h2>
+            <div class="game-embed">
+                <div class="embed-container">
+                    <iframe src="..." ...></iframe>
+                </div>
+            </div>
+        </div>
+        -->
     </main>
 
     <footer>
         <div class="footer-content">
             <p>Creado con ❤️ usando GitHub Pages</p>
             <div class="footer-links">
-                <a href="https://github.com/tu-usuario/tu-repositorio" target="_blank">GitHub</a>
+                <a href="https://github.com/Netphantom481/Crazy-games" target="_blank">GitHub</a>
                 <span class="separator">•</span>
                 <a href="#privacy">Privacidad</a>
             </div>
