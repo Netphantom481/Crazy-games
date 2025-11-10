@@ -1,162 +1,47 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Página de Juegos</title>
-    <link rel="stylesheet" href="styles.css">
+<html>
+  <head>
+    <title>EmulatorJS - PSP DDLC</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        .games-section {
-            padding: 40px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .game-container {
-            background: #f5f5f5;
-            border-radius: 10px;
-            padding: 30px;
-            margin: 25px 0;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        
-        .game-title {
-            color: #333;
-            margin-bottom: 20px;
-            font-size: 1.8em;
-        }
-        
-        .ddlc-warning {
-            background: #ffe6e6;
-            border-left: 4px solid #ff4444;
-            padding: 12px 20px;
-            margin: 15px 0;
-            border-radius: 6px;
-            font-size: 0.95em;
-            text-align: center;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        .play-button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 15px 30px;
-            text-decoration: none;
-            border-radius: 8px;
-            margin: 15px 0;
-            display: inline-block;
-            font-size: 1.1em;
-            font-weight: bold;
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-        
-        .play-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-            color: white;
-            text-decoration: none;
-        }
-        
-        .game-description {
-            color: #666;
-            margin: 15px 0;
-            font-size: 1em;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        /* Para los juegos retro embebidos */
-        .embed-container {
-            position: relative;
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .embed-container iframe {
-            width: 100%;
-            height: 450px;
-            border-radius: 8px;
-            border: 2px solid #ddd;
-        }
+      body, html {
+        height: 100%;
+        background-color: black;
+        color: white;
+        margin: 0;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        font-family: monospace;
+      }
+      #game {
+        width: 960px;
+        height: 540px;
+        background: #111;
+        border: 2px solid #444;
+        border-radius: 10px;
+      }
     </style>
-</head>
-<body>
-    <header>
-        <div class="header-content">
-            <h1>🎮 Mis Juegos</h1>
-            <p>Una colección de juegos divertidos</p>
-        </div>
-    </header>
+  </head>
 
-    <main class="games-section">
-        <!-- DDLC - Enlace directo (RECOMENDADO para GitHub Pages) -->
-        <div class="game-container">
-            <h2 class="game-title">Doki Doki Literature Club</h2>
-            <div class="ddlc-warning">
-                ⚠️ Advertencia: Este juego contiene temas sensibles y no es apto para niños o personas sensibles.
-            </div>
-            
-            <p class="game-description">
-                Un juego de romance psicológico único que va más allá de lo que esperas. 
-                Experimenta una historia que te hará cuestionar todo.
-            </p>
-            
-            <a href=".juegos\frontend\index.html"" class="play-button">
-                🎮 Jugar Doki Doki Literature Club
-            </a>
-            
-            <p style="font-size: 0.9em; color: #888; margin-top: 10px;">
-                Se abrirá en la misma pestaña - Juego completo
-            </p>
-        </div>
+  <body>
+    <h2>🎮 Doki Doki Literature Club PSP</h2>
+    <div id="game"></div>
 
-        <!-- Juegos retro embebidos -->
-        <div class="game-container">
-            <h2 class="game-title">Sonic The Hedgehog</h2>
-            <div class="embed-container">
-                <iframe src="https://www.retrogames.cc/embed/30899-sonic-the-hedgehog-usa-europe.html" 
-                        frameborder="no" 
-                        allowfullscreen>
-                </iframe>
-            </div>
-        </div>
-        
-        <div class="game-container">
-            <h2 class="game-title">Super Smash Bros</h2>
-            <div class="embed-container">
-                <iframe src="https://www.retrogames.cc/embed/32117-super-smash-bros-usa.html" 
-                        frameborder="no" 
-                        allowfullscreen>
-                </iframe>
-            </div>
-        </div>
+    <script>
+      // Configuración del emulador
+      window.EJS_player = "#game";
+      window.EJS_core = "psp";
+      window.EJS_gameUrl = "games/DDLC-LOVE/EBOOT.PBP"; // Ruta en tu repo
+      window.EJS_pathtodata = "data/";
+      window.EJS_threads = true; // Requerido para PSP
+      window.EJS_startOnLoaded = true;
 
-        <div class="game-container">
-            <h2 class="game-title">Pokemon Red</h2>
-            <div class="embed-container">
-                <iframe src="https://www.retrogames.cc/embed/44577-pokemon-red-full-color-hack.html" 
-                        frameborder="no" 
-                        allowfullscreen>
-                </iframe>
-            </div>
-        </div>
-    </main>
-
-    <footer>
-        <div class="footer-content">
-            <p>Creado con ❤️ usando GitHub Pages</p>
-            <div class="footer-links">
-                <a href="https://github.com/Netphantom481/Crazy-games" target="_blank">GitHub</a>
-                <span class="separator">•</span>
-                <a href="#privacy">Privacidad</a>
-            </div>
-        </div>
-    </footer>
-</body>
+      const script = document.createElement("script");
+      script.src = "data/loader.js";
+      document.body.appendChild(script);
+    </script>
+  </body>
 </html>
