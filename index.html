@@ -1,59 +1,67 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8">
-    <title>EmulatorJS - PSP DDLC</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Favicon: puedes usar tu logo en PNG -->
-    <link rel="icon" href="docs/Logo-light.png" type="image/png">
+  <title>Crazy Games – Night Collection</title>
 
-    <style>
-      body, html {
-        height: 100%;
-        margin: 0;
-        background-color: black;
-        color: white;
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        font-family: monospace;
-      }
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      background-color: black;
+      color: white;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      font-family: monospace;
+    }
 
-      h2 {
-        margin-bottom: 20px;
-      }
+    h1 {
+      margin-bottom: 30px;
+      letter-spacing: 2px;
+    }
 
-      #game {
-        width: 960px;
-        height: 540px;
-        max-width: 100%;
-        background: #111;
-        border: 2px solid #444;
-        border-radius: 10px;
-      }
-    </style>
-  </head>
+    .menu {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
 
-  <body>
-    <h2>🎮 Doki Doki Literature Club PSP</h2>
-    <div id="game"></div>
+    a {
+      text-decoration: none;
+      color: white;
+      border: 1px solid white;
+      padding: 15px 30px;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
 
-    <script>
-      // Configuración del emulador
-      window.EJS_player = "#game";
-      window.EJS_core = "psp";
-      window.EJS_gameUrl = "games/DDLC-LOVE/EBOOT.PBP"; // Ruta en tu repo
-      window.EJS_pathtodata = "data/";
-      window.EJS_threads = true; // Requerido para PSP
-      window.EJS_startOnLoaded = true;
+    a:hover {
+      background-color: white;
+      color: black;
+    }
+  </style>
+</head>
 
-      // Carga del emulador
-      const script = document.createElement("script");
-      script.src = "data/loader.js";
-      document.body.appendChild(script);
-    </script>
-  </body>
+<body>
+
+  <h1>CRAZY GAMES</h1>
+
+  <div class="menu">
+    <a href="./juegos/1/">Night 1</a>
+    <a href="./juegos/2/">Night 2</a>
+    <a href="./juegos/3/">Night 3</a>
+    <a href="./juegos/4/">Night 4</a>
+
+    <a href="./juegos/ps/">PS</a>
+    <a href="./juegos/sl/">SL</a>
+    <a href="./juegos/ucn/">UCN</a>
+    <a href="./juegos/w/">W</a>
+  </div>
+
+</body>
 </html>
